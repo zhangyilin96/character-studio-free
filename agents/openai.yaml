@@ -1,0 +1,6 @@
+interface:
+  display_name: "Character Studio Beta"
+  short_description: "角色姿势迁移、一键换装与基础质量检查"
+  default_prompt: "使用 $character-consistency-pipeline：第一张图作为角色参考，第二张图作为姿势参考，按公开 Beta 快速流程完成身份锁定、检查与严格交付。"
+policy:
+  allow_implicit_invocation: true

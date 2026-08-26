@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "package": "character-studio-public-beta",
+  "distribution_mode": "public_beta",
+  "generated_at": "2026-08-26T12:34:53.635096+00:00",
+  "versions": {
+    "product": "0.1.0-beta.2",
+    "engine": "1.8.1",
+    "skill_interface": "2.0",
+    "pipeline_schema": "1.8.1",
+    "frozen_core": "v1.7-stable+v1.5-selection",
+    "provider_protocol": "1.0",
+    "studio_interface": "1.2.0"
+  },
+  "abi": {
+    "skill_interface": "2.0",
+    "provider_protocol": "1.0",
+    "studio_interface": "1.2.0"
+  },
+  "source_policy": "explicit_whitelist",
+  "files": [
+    {
+      "path": ".gitignore",
+      "size": 184,
+      "sha256": "834e15904de6e1ec91102d2b694ea7cf67842cb6e3788b97fb8a100c8d474c17"
+    },
+    {
+      "path": "agents/openai.yaml",
+      "size": 371,
+      "sha256": "570bb8f7bfab175083febf06adec3d8468ac764e795b2003aeac471f24b822c9"
+    },
+    {
+      "path": "bridge/__init__.py",
+      "size": 280,
+      "sha256": "d4cddb847f909376a350fe39afa4b5528e1a6795765f474648a71e45c1cc2d13"
+    },
+    {
+      "path": "bridge/public_codex_bridge.py",
+      "size": 25917,
+      "sha256": "f954ba0e4f06f7c0a77e548bb833f8f8dba3d21a17b238cb354a17247e8e13fd"
+    },
+    {
+      "path": "character_workflow/__init__.py",
+      "size": 386,
+      "sha256": "5851e5aeb52a68e20e0b26e0f09c90bd0ec2fd7f7882c35adcdebb5395f2fb97"
+    },
+    {
+      "path": "character_workflow/free_delivery.py",
+      "size": 2846,
+      "sha256": "3b2b41e0769f106e78f6f8c0a1ce789ce497989fcf173571503c224cb98ffc7e"
+    },
+    {
+      "path": "character_workflow/free_pipeline.py",
+      "size": 7774,
+      "sha256": "78e814a03e165ad69c58ed09112fa0fd9768dfe04eb9cc382a3da307c6ef9159"
+    },
+    {
+      "path": "character_workflow/outfit_reference_service.py",
+      "size": 12516,
+      "sha256": "6bc0f4b582e77325918def17659849356d614f2d12e54d52abe7a9727806228d"
+    },
+    {
+      "path": "character_workflow/public_artifact_store.py",
+      "size": 8939,
+      "sha256": "98472d43c4d3f5ac80f4b05df8087f4bd976766aa19f4e04ab90201c38cb7a71"
+    },
+    {
+      "path": "character_workflow/public_types.py",
+      "size": 1756,
+      "sha256": "c2fb4151946b1594b5b0c7320a942b2b999f65353f67d91afa62a17b6de375da"
+    },
+    {
+      "path": "character_workflow/public_workflow_service.py",
+      "size": 15999,
+      "sha256": "a463daf862d12bc444f86b39fe23545f5bcb087a358685914b3bc6d2e83dd823"
+    },
+    {
+      "path": "character_workflow/quick_candidate_observation.py",
+      "size": 3721,
+      "sha256": "a1ffd62c1847ce7207d7a342c51e744cd0c4f05535c27429ccd3444fa88c63dd"
+    },
+    {
+      "path": "character_workflow/quick_reference_analysis.py",
+      "size": 3346,
+      "sha256": "2c313795764cd6d01de5426171bfd0b98ce692fb4bad95e94e5c1e6cdb776540"
+    },
+    {
+      "path": "character_workflow/versioning.py",
+      "size": 1071,
+      "sha256": "cfcdd3d431071e8d86fa57df755b34a901b6e2a4896e38f87463dcce8ad72563"
+    },
+    {
+      "path": "config/__init__.py",
+      "size": 52,
+      "sha256": "7112b3e2a2cccb43bedec3d5010af919328c0b26298e034aa1630a7a1a8c2641"
+    },
+    {
+      "path": "config/public_product.py",
+      "size": 841,
+      "sha256": "1aa639163e097d98bfbadf693bcb2987abd580954e6996f0dd7817bd4c7d5ef8"
+    },
+    {
+      "path": "contracts/__init__.py",
+      "size": 194,
+      "sha256": "f1ed9e3a1c5505aaa572e2b1fa188ac8185c5eb3204e60455c4a51824bf50d50"
+    },
+    {
+      "path": "contracts/public_execution.py",
+      "size": 1730,
+      "sha256": "edc9823a051189df8e95a6e0e22c58b6255f9f9303e843289d1981d760d8d6e7"
+    },
+    {
+      "path": "Install Character Studio Beta.cmd",
+      "size": 2206,
+      "sha256": "7c4dbb736afa9ed0df92aaa0e0a65d2eeedc062a2e35fa1c3bdc65d24e664142"
+    },
+    {
+      "path": "LICENSE",
+      "size": 4599,
+      "sha256": "344b88a43982392bfa6ec17763ac02435fb5da57dfc851988a4ef056194db8f3"
+    },
+    {
+      "path": "README.md",
+      "size": 2399,
+      "sha256": "a1f87e68eed89e38eca9a581eca0f42489aff15a5e61231715c84d7ac2c63a81"
+    },
+    {
+      "path": "references/outfit-transfer.md",
+      "size": 313,
+      "sha256": "dae6bd8a9fca89093e4453cf6d6c534ee51f69623845db733f1f24444fb465c4"
+    },
+    {
+      "path": "references/pose-transfer.md",
+      "size": 391,
+      "sha256": "3f3ef437054146e5393491e434f93e19e3bbdcf04e6cb1e70b62fdc36dbbf694"
+    },
+    {
+      "path": "references/provider-contract.md",
+      "size": 419,
+      "sha256": "a31c58adb02439765f20d8ffbc7083b0b43db36691a0209cadc16be970f528ac"
+    },
+    {
+      "path": "references/studio-installation.md",
+      "size": 800,
+      "sha256": "356007f849886870fd25c235efd6015e717ae995ce289ea19e8f12f51fc066a2"
+    },
+    {
+      "path": "references/validation-policy.md",
+      "size": 439,
+      "sha256": "17cafa76d61d69a450be03b166a1fa5d886c8baa1e09458e1f810c16267ca09d"
+    },
+    {
+      "path": "scripts/install_studio.py",
+      "size": 18755,
+      "sha256": "6b7dec3adaa1fffdb923a5f94d6103ba2fab9e163422e194568254cae0a9866c"
+    },
+    {
+      "path": "scripts/reference_preprocessing.py",
+      "size": 37643,
+      "sha256": "3d2ebf49d75d8c19a796efdc389b509a5ec5844d2e03f119ce8ba5a46555c13d"
+    },
+    {
+      "path": "scripts/reference_role_isolation.py",
+      "size": 24524,
+      "sha256": "33e11a91a4382a3aa1d34e4892dab13cbfc73b71d75a0e0eb0d919bf3e4d4dda"
+    },
+    {
+      "path": "scripts/renderer_adapter.py",
+      "size": 43786,
+      "sha256": "4ab433c8c03be36ac94f5e4158d0723fef4e198027365114d7c0faebe9ce7865"
+    },
+    {
+      "path": "scripts/renderer_adapter_v18.py",
+      "size": 10731,
+      "sha256": "16a18120ec9de8484e083307930a3e3c04a432e35ee6cb3a406166c3ca8fa640"
+    },
+    {
+      "path": "scripts/validate_free_package.py",
+      "size": 7251,
+      "sha256": "342b7f2576a47e44dc68ae662586de5e489a49efdd010b86f6ffd6e31945a36f"
+    },
+    {
+      "path": "SKILL.md",
+      "size": 1914,
+      "sha256": "673a6f2c1ddd7f47f0c2dcbba413b91b5085adb083ae38feff9f98e0bb2c07ee"
+    },
+    {
+      "path": "studio/__init__.py",
+      "size": 201,
+      "sha256": "28a6ebe94b89da64c3e25b6e8395bc2c8e6c487132663328ba1031233004ab90"
+    },
+    {
+      "path": "studio/launcher.py",
+      "size": 8544,
+      "sha256": "9ce726ca3e75dad11ef4f53b075e64a1cadcc267ec3091e6f7d7b1390f636585"
+    },
+    {
+      "path": "studio/public_beta.py",
+      "size": 10242,
+      "sha256": "a87def906bc38cab29d58a8bdbe98140fbf25f1b29e74388e91543369852b64b"
+    },
+    {
+      "path": "studio/public_service.py",
+      "size": 6703,
+      "sha256": "9ff330da6091834d94700c0205e1b84d73ce53626947dea45d33109b5a67fbab"
+    },
+    {
+      "path": "studio/public_types.py",
+      "size": 538,
+      "sha256": "1de17dc93b74cd8bddbe4d7def613f37f786bcb0a0d2ec018a78387ef7497a44"
+    },
+    {
+      "path": "studio/requirements.txt",
+      "size": 31,
+      "sha256": "bc7d51da1eaeb693d999a4e15c12e9e40a626d6601fe6008c62db5228aa67788"
+    },
+    {
+      "path": "studio/server.py",
+      "size": 3518,
+      "sha256": "6f0f6818f0d042fa2519ce35181ef1c57ffec1a382a6062a5937021e851443c8"
+    }
+  ]
+}
