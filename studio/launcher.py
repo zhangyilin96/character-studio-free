@@ -142,7 +142,6 @@ def launcher_lock(app_root: Path, timeout: float = 20.0):
 
 
 def spawn_server(config_path: Path, config: dict, port: int):
-    pythonw = Path(config["pythonw"]).resolve()
     skill_root = Path(config["skill_root"]).resolve()
     server_log = Path(config["logs_dir"]) / "studio-server-console.log"
     server_log.parent.mkdir(parents=True, exist_ok=True)
@@ -150,9 +149,22 @@ def spawn_server(config_path: Path, config: dict, port: int):
     flags = 0
     if os.name == "nt":
         flags = subprocess.CREATE_NO_WINDOW | subprocess.CREATE_NEW_PROCESS_GROUP
+    server_executable = config.get("server_executable")
+    if server_executable:
+        command = [
+            str(Path(server_executable).resolve()),
+            "--server",
+            "--config",
+            str(config_path),
+            "--port",
+            str(port),
+        ]
+    else:
+        pythonw = Path(config["pythonw"]).resolve()
+        command = [str(pythonw), "-m", "studio.server", "--config", str(config_path), "--port", str(port)]
     try:
         process = subprocess.Popen(
-            [str(pythonw), "-m", "studio.server", "--config", str(config_path), "--port", str(port)],
+            command,
             cwd=skill_root,
             stdin=subprocess.DEVNULL,
             stdout=stream,
@@ -167,6 +179,78 @@ def spawn_server(config_path: Path, config: dict, port: int):
     return process
 
 
+def _assign_kill_on_close_job(process, logger: logging.Logger):
+    """Keep a packaged server attached to its hidden launcher on Windows."""
+
+    if os.name != "nt":
+        return None
+    try:
+        import ctypes
+        from ctypes import wintypes
+
+        class IoCounters(ctypes.Structure):
+            _fields_ = [(name, ctypes.c_ulonglong) for name in (
+                "ReadOperationCount", "WriteOperationCount", "OtherOperationCount",
+                "ReadTransferCount", "WriteTransferCount", "OtherTransferCount",
+            )]
+
+        class BasicLimit(ctypes.Structure):
+            _fields_ = [
+                ("PerProcessUserTimeLimit", ctypes.c_longlong),
+                ("PerJobUserTimeLimit", ctypes.c_longlong),
+                ("LimitFlags", wintypes.DWORD),
+                ("MinimumWorkingSetSize", ctypes.c_size_t),
+                ("MaximumWorkingSetSize", ctypes.c_size_t),
+                ("ActiveProcessLimit", wintypes.DWORD),
+                ("Affinity", ctypes.c_size_t),
+                ("PriorityClass", wintypes.DWORD),
+                ("SchedulingClass", wintypes.DWORD),
+            ]
+
+        class ExtendedLimit(ctypes.Structure):
+            _fields_ = [
+                ("BasicLimitInformation", BasicLimit),
+                ("IoInfo", IoCounters),
+                ("ProcessMemoryLimit", ctypes.c_size_t),
+                ("JobMemoryLimit", ctypes.c_size_t),
+                ("PeakProcessMemoryUsed", ctypes.c_size_t),
+                ("PeakJobMemoryUsed", ctypes.c_size_t),
+            ]
+
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel32.CreateJobObjectW.restype = wintypes.HANDLE
+        kernel32.SetInformationJobObject.argtypes = [wintypes.HANDLE, ctypes.c_int, ctypes.c_void_p, wintypes.DWORD]
+        kernel32.AssignProcessToJobObject.argtypes = [wintypes.HANDLE, wintypes.HANDLE]
+        kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+        handle = kernel32.CreateJobObjectW(None, None)
+        if not handle:
+            raise OSError(ctypes.get_last_error(), "CreateJobObjectW failed")
+        info = ExtendedLimit()
+        info.BasicLimitInformation.LimitFlags = 0x00002000  # JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
+        if not kernel32.SetInformationJobObject(handle, 9, ctypes.byref(info), ctypes.sizeof(info)):
+            error = ctypes.get_last_error()
+            kernel32.CloseHandle(handle)
+            raise OSError(error, "SetInformationJobObject failed")
+        if not kernel32.AssignProcessToJobObject(handle, wintypes.HANDLE(int(process._handle))):
+            error = ctypes.get_last_error()
+            kernel32.CloseHandle(handle)
+            raise OSError(error, "AssignProcessToJobObject failed")
+        return handle
+    except Exception as exc:
+        logger.warning("server process job attachment unavailable reason=%s", exc)
+        return None
+
+
+def _close_job_handle(handle) -> None:
+    if handle and os.name == "nt":
+        import ctypes
+        from ctypes import wintypes
+
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+        kernel32.CloseHandle(handle)
+
+
 def wait_ready(url: str, process, timeout: float = 55.0) -> bool:
     started = time.monotonic()
     while time.monotonic() - started < timeout:
@@ -179,6 +263,8 @@ def wait_ready(url: str, process, timeout: float = 55.0) -> bool:
 
 
 def open_browser(url: str) -> None:
+    if os.getenv("CHARACTER_STUDIO_NO_BROWSER", "").strip() == "1":
+        return
     if not webbrowser.open(url, new=2, autoraise=True):
         raise StartupError(f"工作室已启动，但无法打开默认浏览器。请手动打开 {url}。")
 
@@ -198,8 +284,10 @@ def launch_once(config_path: Path) -> str:
             port = choose_port(int(config.get("port_start", 7860)), int(config.get("port_end", 7890)))
             logger.info("starting server port=%s", port)
             process = spawn_server(config_path, config, port)
+            job_handle = _assign_kill_on_close_job(process, logger) if config.get("keep_launcher_alive") else None
             url = f"http://127.0.0.1:{port}"
             if not wait_ready(url, process):
+                _close_job_handle(job_handle)
                 logger.error("server startup failed port=%s exit_code=%s", port, process.poll())
                 raise StartupError("工作室无法启动。详细原因请查看 logs/studio-server-console.log。")
             server_pid = process.pid
@@ -212,6 +300,12 @@ def launch_once(config_path: Path) -> str:
             logger.info("server ready port=%s pid=%s", port, server_pid)
             open_browser(url)
             logger.info("browser launch url=%s", url)
+            if config.get("keep_launcher_alive"):
+                try:
+                    process.wait()
+                finally:
+                    _close_job_handle(job_handle)
+                logger.info("server process exited exit_code=%s", process.returncode)
             return url
     finally:
         close_logger(logger)

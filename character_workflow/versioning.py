@@ -24,7 +24,7 @@ class VersionSet:
 
 
 VERSIONS = VersionSet(
-    product="0.1.0-beta.2",
+    product="0.1.0-beta.3",
     engine="1.8.1",
     skill_interface="2.0",
     pipeline_schema="1.8.1",

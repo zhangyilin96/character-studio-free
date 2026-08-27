@@ -29,4 +29,4 @@ description: 用于图一角色图二参考姿势的身份锁定与角色一致�
 - API 密钥不得进入任务、缓存、日志或 Git。
 - 测试信息只导出到用户本地，不自动上传图片或诊断数据。
 
-默认路径是 Studio → Local Bridge → 用户自己的 Codex。本地模型尚未实现。安装与接口说明见 [references/studio-installation.md](references/studio-installation.md) 和 [references/provider-contract.md](references/provider-contract.md)。
+默认路径是 Studio → Local Bridge → 用户自己的 Codex。本地模型尚未实现。普通用户通过内含运行时的 `CharacterStudioBeta-Setup.exe` 安装，不要求 Python、pip、Git 或命令行。安装与接口说明见 [references/studio-installation.md](references/studio-installation.md) 和 [references/provider-contract.md](references/provider-contract.md)。

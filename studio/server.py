@@ -16,6 +16,7 @@ from config.public_product import DISTRIBUTION_PUBLIC_BETA, require_public_beta
 
 from . import STUDIO_VERSION
 from .public_beta import build_public_beta_demo
+from .public_service import PublicStudioService
 
 
 def _read_config(path: Path) -> dict:
@@ -45,8 +46,11 @@ def main(argv: list[str] | None = None) -> int:
     config = _read_config(args.config.resolve())
     distribution_mode = require_public_beta(config.get("distribution_mode", DISTRIBUTION_PUBLIC_BETA))
     app_root = Path(config["app_root"]).resolve()
+    skill_root = Path(config.get("skill_root") or Path(__file__).resolve().parents[1]).resolve()
+    favicon_path = Path(config.get("icon_png") or skill_root / "assets" / "icons" / "favicon.png")
     logger = _logger(Path(config["logs_dir"]) / "studio-server.log")
-    demo = build_public_beta_demo(app_root, logger)
+    service = PublicStudioService(app_root, logger, skill_root=skill_root)
+    demo = build_public_beta_demo(app_root, logger, service=service, favicon_path=favicon_path)
     if args.smoke_test:
         demo.close()
         logger.info("public studio smoke test passed version=%s", STUDIO_VERSION)
@@ -90,6 +94,7 @@ def main(argv: list[str] | None = None) -> int:
             ],
             theme=demo._studio_theme,
             css=demo._studio_css,
+            favicon_path=demo._studio_favicon,
         )
     except Exception:
         logger.exception("fatal public server error port=%s", args.port)

@@ -8,7 +8,7 @@ import logging
 from pathlib import Path
 from typing import Callable
 
-from bridge.public_codex_bridge import PublicBridgeRequest, PublicBridgeResult, PublicCodexBridge
+from bridge.public_codex_bridge import PublicBridgeHealth, PublicBridgeRequest, PublicBridgeResult, PublicCodexBridge
 from character_workflow.versioning import VERSIONS
 from contracts.public_execution import public_beta_profile
 
@@ -27,15 +27,19 @@ class PublicStudioService:
         logger: logging.Logger | None = None,
         *,
         bridge: PublicCodexBridge | None = None,
+        skill_root: Path | None = None,
     ):
         self.app_root = app_root.resolve()
         self.outputs_root = self.app_root / "outputs"
         self.logger = logger or logging.getLogger("character_studio_public_beta")
         self.outputs_root.mkdir(parents=True, exist_ok=True)
-        self.bridge = bridge or PublicCodexBridge(self.app_root)
+        self.bridge = bridge or PublicCodexBridge(self.app_root, skill_root=skill_root)
+
+    def codex_health(self) -> PublicBridgeHealth:
+        return self.bridge.health_check()
 
     def codex_status(self) -> tuple[bool, str]:
-        health = self.bridge.health_check()
+        health = self.codex_health()
         return health.available, health.message
 
     def cancel_active(self) -> bool:
@@ -127,11 +131,11 @@ class PublicStudioService:
         user_prompt: str = "",
         on_status: StatusCallback | None = None,
     ) -> PublicStudioResult:
-        error = self._input_error(character_path, pose_path, "参考图")
+        error = self._input_error(character_path, pose_path, "姿势参考图")
         if error is not None:
             return error
         if mode_label not in {"自动", "严格参考", "完整身体"}:
-            return PublicStudioResult("设置无效", "请选择有效的生成模式。")
+            return PublicStudioResult("设置无效", "请选择有效的迁移模式。")
         result = self.bridge.run(
             PublicBridgeRequest(
                 Path(character_path).resolve(),  # type: ignore[arg-type]

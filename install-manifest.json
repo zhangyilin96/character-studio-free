@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "product": "Character Studio Beta",
+  "channel": "public-beta",
+  "version": "0.1.0-beta.3",
+  "release_tag": "v0.1.0-beta.3",
+  "repository": "https://github.com/zhangyilin96/character-studio-free",
+  "publisher": "zhangyilin96",
+  "published_at": null,
+  "minimum_windows_version": "10.0",
+  "architecture": "x86_64",
+  "installer": {
+    "asset_name": "CharacterStudioBeta-Setup.exe",
+    "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v0.1.0-beta.3/CharacterStudioBeta-Setup.exe",
+    "size": 68295763,
+    "sha256": "396beaad9f019a4cc60e738e88bae51bfd3a8a73926565c7b69432892962d3b5"
+  },
+  "license_identifier": "PolyForm-Perimeter-1.0.1"
+}

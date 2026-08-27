@@ -26,7 +26,7 @@ FORBIDDEN_PATHS = {
     "bridge/codex_bridge.py",
 }
 REQUIRED_PATHS = {
-    "Install Character Studio Beta.cmd",
+    "INSTALL_WITH_CODEX.md",
     "LICENSE",
     "bridge/public_codex_bridge.py",
     "config/public_product.py",
@@ -35,8 +35,12 @@ REQUIRED_PATHS = {
     "studio/public_service.py",
     "studio/public_types.py",
     "studio/server.py",
+    "studio/windows_entry.py",
+    "assets/icons/character-studio.ico",
+    "assets/icons/favicon.png",
     "character_workflow/public_workflow_service.py",
     "character_workflow/public_types.py",
+    "scripts/install_manifest.py",
 }
 FORBIDDEN_MARKERS = (
     "from license",

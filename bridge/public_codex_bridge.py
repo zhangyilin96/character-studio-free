@@ -23,10 +23,14 @@ from scripts.reference_preprocessing import PASS, character_cutout
 StatusCallback = Callable[[str], None]
 Runner = Callable[..., subprocess.CompletedProcess[str]]
 _PROGRESS_PREFIX = "__studio_progress__|"
+CODEX_INSTALL_URL = "https://developers.openai.com/codex/cli"
 _ALLOWED_FAILURE_REASONS = {
     "",
     "ADVANCED_CASE_NOT_SUPPORTED",
     "CODEX_EXEC_FAILED",
+    "CODEX_AUTH_REQUIRED",
+    "CODEX_NETWORK_FAILED",
+    "CODEX_QUOTA_EXHAUSTED",
     "CODEX_RESULT_INVALID",
     "CODEX_START_FAILED",
     "CODEX_TIMEOUT",
@@ -156,6 +160,7 @@ class PublicCodexBridge:
         app_root: Path,
         *,
         executable: str | None = None,
+        skill_root: Path | None = None,
         runner: Runner = subprocess.run,
         timeout_seconds: int = 1200,
     ):
@@ -163,6 +168,7 @@ class PublicCodexBridge:
         self.jobs_root = self.app_root / "bridge" / "jobs"
         self.jobs_root.mkdir(parents=True, exist_ok=True)
         self.executable = _resolve_codex_executable(executable)
+        self.skill_root = Path(skill_root).resolve() if skill_root else None
         self.runner = runner
         self.timeout_seconds = timeout_seconds
         self._process_lock = threading.Lock()
@@ -173,7 +179,7 @@ class PublicCodexBridge:
         if not self.executable:
             return PublicBridgeHealth(
                 False,
-                "未找到 Codex。请先安装并登录 Codex，再重新打开工作室。",
+                "未找到可供 Character Studio 调用的 Codex。请打开官方安装说明，完成安装和登录后重新检测。",
                 diagnostic_code="CODEX_NOT_FOUND",
             )
         try:
@@ -193,9 +199,9 @@ class PublicCodexBridge:
                 False,
                 (
                     "已检测到 Codex 桌面应用，但本地桥接还需要可从命令行运行的 Codex CLI。"
-                    "请按官方安装页完成安装与登录：https://learn.chatgpt.com/docs/codex/cli"
+                    "请打开 Codex 官方安装说明完成安装与登录，然后重新检测。"
                     if windows_store_desktop
-                    else "已找到 Codex CLI，但当前无法启动。请确认它已登录并可从终端运行。"
+                    else "已找到 Codex，但 Character Studio 无法调用它。请打开官方安装说明检查安装与登录。"
                 ),
                 self.executable,
                 "CODEX_DESKTOP_ONLY" if windows_store_desktop else "CODEX_NOT_EXECUTABLE",
@@ -203,7 +209,7 @@ class PublicCodexBridge:
         if result.returncode != 0:
             return PublicBridgeHealth(
                 False,
-                "Codex 尚未就绪。请先在 Codex 中完成登录或修复安装。",
+                "Codex 尚未就绪。请按官方说明完成登录或修复安装，然后重新检测。",
                 self.executable,
                 "CODEX_HEALTH_FAILED",
             )
@@ -225,8 +231,8 @@ class PublicCodexBridge:
             return PublicBridgeHealth(
                 False,
                 (
-                    f"已安装 {version}，但未检测到独立终端登录。工作室仍会尝试使用当前 Codex 会话；"
-                    "若生成失败，请在 PowerShell 运行 codex 并选择 ChatGPT 登录。"
+                    f"已安装 {version}，但尚未完成或无法确认 ChatGPT 登录。"
+                    "请打开官方登录说明完成登录，然后点击重新检测。"
                 ),
                 self.executable,
                 "CODEX_LOGIN_UNVERIFIED",
@@ -281,8 +287,7 @@ class PublicCodexBridge:
         result["meta_path"].write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         return result["cutout_path"]
 
-    @staticmethod
-    def _prompt(request: PublicBridgeRequest, job_dir: Path, character: Path, secondary: Path) -> str:
+    def _prompt(self, request: PublicBridgeRequest, job_dir: Path, character: Path, secondary: Path) -> str:
         workflow_text = "姿势迁移" if request.workflow == "pose_transfer" else "一键换装"
         authority = (
             "第一张图只负责角色身份、脸、发型、身材、比例、服装和最终画风；第二张图只负责姿势、构图、裁切、遮挡和透视。"
@@ -290,7 +295,12 @@ class PublicCodexBridge:
             else "第一张图负责角色身份、身体、姿势、背景和最终画风；第二张图只负责服装结构、材质、颜色、装饰和层次。"
         )
         profile = request.execution_profile or public_beta_profile(request.workflow)
-        return f"""使用已安装的 $character-consistency-pipeline 完成一次 {workflow_text}，不要向用户追问。
+        skill_entry = self.skill_root / "SKILL.md" if self.skill_root else None
+        if skill_entry and skill_entry.is_file():
+            skill_instruction = f"先完整读取并遵循此公开 Skill：{skill_entry}"
+        else:
+            skill_instruction = "使用已安装的 $character-consistency-pipeline"
+        return f"""{skill_instruction}，完成一次 {workflow_text}，不要向用户追问。
 
 输入图片：
 - 第一张：{character}
@@ -307,6 +317,42 @@ class PublicCodexBridge:
 请返回 blocked 和 ADVANCED_CASE_NOT_SUPPORTED。最后只按给定 JSON Schema 返回状态，
 路径必须使用相对于当前任务目录的相对路径。
 """
+
+    @staticmethod
+    def _failure_from_stderr(stderr: str) -> tuple[str, str]:
+        normalized = stderr.casefold()
+        quota_markers = (
+            "insufficient_quota",
+            "quota exceeded",
+            "usage limit",
+            "credit balance",
+            "credits exhausted",
+        )
+        auth_markers = (
+            "not logged in",
+            "login required",
+            "sign in required",
+            "authentication required",
+            "unauthorized",
+            "invalid authentication",
+        )
+        network_markers = (
+            "network is unreachable",
+            "connection refused",
+            "connection reset",
+            "temporary failure in name resolution",
+            "dns",
+            "proxy error",
+            "tls handshake",
+            "offline",
+        )
+        if any(marker in normalized for marker in quota_markers):
+            return "CODEX_QUOTA_EXHAUSTED", "Codex 当前额度不足或已达到使用上限。请稍后重试或检查该账号的使用状态。"
+        if any(marker in normalized for marker in auth_markers):
+            return "CODEX_AUTH_REQUIRED", "Codex 登录已失效或尚未完成。请按官方登录说明完成登录后重新检测。"
+        if any(marker in normalized for marker in network_markers):
+            return "CODEX_NETWORK_FAILED", "Codex 当前无法连接网络。请检查网络连接后重试。"
+        return "CODEX_EXEC_FAILED", "Codex 没有完成本次任务。详细诊断已保留在本地任务目录。"
 
     def _command(
         self,
@@ -587,14 +633,15 @@ class PublicCodexBridge:
             receipt["stderr_excerpt"] = stderr_excerpt[:4000]
         receipt_path.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         if process.returncode != 0 or not response_path.is_file():
+            failure_reason, failure_message = self._failure_from_stderr(process.stderr or "")
             return PublicBridgeResult(
                 "failed",
-                "Codex 没有完成本次任务。详细诊断已保留在本地任务目录。",
+                failure_message,
                 job_dir,
                 artifact_path=job_dir,
                 request_id=job_id,
                 retryable=True,
-                failure_reason="CODEX_EXEC_FAILED",
+                failure_reason=failure_reason,
             )
         try:
             payload = json.loads(response_path.read_text(encoding="utf-8"))
