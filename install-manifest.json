@@ -1,19 +1,27 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "product": "Character Studio Beta",
-  "channel": "public-beta",
-  "version": "0.1.0-beta.3",
-  "release_tag": "v0.1.0-beta.3",
+  "channel": "pro-beta",
+  "version": "1.0.0-beta.1",
+  "release_tag": "v1.0.0-beta.1",
   "repository": "https://github.com/zhangyilin96/character-studio-free",
   "publisher": "zhangyilin96",
-  "published_at": null,
+  "published_at": "2026-08-30T08:03:06Z",
+  "release_notes": [
+    "新增 Pro Beta / 高一致性模式，实际进入现有 PRO_HIGH_CONSISTENCY_V18 重流程。",
+    "邀请码可解锁 5 次 Pro Beta 提交，并在重启和升级后保留剩余次数。",
+    "新增官方版本检查、整包 SHA-256/版本校验和用户确认更新流程。",
+    "程序与用户数据继续分离，升级不重置 Codex 配置、任务、日志或授权状态。",
+    "兼容旧 Beta 的 skill/LICENSE 文件布局，可安全覆盖升级。"
+  ],
   "minimum_windows_version": "10.0",
   "architecture": "x86_64",
   "installer": {
     "asset_name": "CharacterStudioBeta-Setup.exe",
-    "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v0.1.0-beta.3/CharacterStudioBeta-Setup.exe",
-    "size": 68295763,
-    "sha256": "396beaad9f019a4cc60e738e88bae51bfd3a8a73926565c7b69432892962d3b5"
+    "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.1/CharacterStudioBeta-Setup.exe",
+    "size": 71983916,
+    "sha256": "ce6c0e41cfdfe2cedb94bfa1b39b9de34b9c50d07d7eaa9e204dd0e48a1d260f",
+    "windows_version": "1.0.0.1"
   },
-  "license_identifier": "PolyForm-Perimeter-1.0.1"
+  "license_identifier": "Pro-Beta-Invitation-v1"
 }
