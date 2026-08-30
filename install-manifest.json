@@ -1,27 +1,35 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "product": "Character Studio Beta",
   "channel": "pro-beta",
-  "version": "1.0.0-beta.1",
-  "release_tag": "v1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
+  "latestVersion": "1.0.0-beta.2",
+  "release_tag": "v1.0.0-beta.2",
   "repository": "https://github.com/zhangyilin96/character-studio-free",
   "publisher": "zhangyilin96",
-  "published_at": "2026-08-30T08:03:06Z",
+  "published_at": "2026-08-30T09:36:17.177588+00:00",
+  "releaseDate": "2026-08-30",
   "release_notes": [
-    "新增 Pro Beta / 高一致性模式，实际进入现有 PRO_HIGH_CONSISTENCY_V18 重流程。",
-    "邀请码可解锁 5 次 Pro Beta 提交，并在重启和升级后保留剩余次数。",
-    "新增官方版本检查、整包 SHA-256/版本校验和用户确认更新流程。",
-    "程序与用户数据继续分离，升级不重置 Codex 配置、任务、日志或授权状态。",
-    "兼容旧 Beta 的 skill/LICENSE 文件布局，可安全覆盖升级。"
+    "修复重复点击桌面图标后被错误判定为“另一个窗口仍在启动”的问题。",
+    "升级为 WebView2 原生 Desktop Window，支持窗口前置、关闭后重开和后台任务继续。",
+    "工作区更新为 Sources / Canvas / Controls 三栏桌面布局，并加入统一 Motion System。",
+    "新增跨版本完整安装与 data schema Migration Registry，升级前自动备份并支持失败重试。",
+    "保留普通模式、Pro Beta、Codex 配置、邀请码额度、任务、输出和用户设置。"
   ],
   "minimum_windows_version": "10.0",
   "architecture": "x86_64",
+  "minimumSupportedVersion": "0.1.0-beta.3",
+  "minimumSchemaVersion": 1,
+  "latestDataSchemaVersion": 3,
+  "mandatoryUpdate": false,
+  "installerType": "full",
   "installer": {
     "asset_name": "CharacterStudioBeta-Setup.exe",
-    "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.1/CharacterStudioBeta-Setup.exe",
-    "size": 71983916,
-    "sha256": "ce6c0e41cfdfe2cedb94bfa1b39b9de34b9c50d07d7eaa9e204dd0e48a1d260f",
-    "windows_version": "1.0.0.1"
+    "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.2/CharacterStudioBeta-Setup.exe",
+    "downloadUrl": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.2/CharacterStudioBeta-Setup.exe",
+    "size": 74053679,
+    "sha256": "0e0cc741a4c4bed3956fde19c12307d9ed7a004cdfcbbb203b1d8759f5d44fd7",
+    "windows_version": "1.0.0.2"
   },
   "license_identifier": "Pro-Beta-Invitation-v1"
 }
