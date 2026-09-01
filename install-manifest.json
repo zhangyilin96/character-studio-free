@@ -1,20 +1,20 @@
 {
   "schema_version": 3,
   "product": "Character Studio Beta",
-  "channel": "pro-beta",
-  "version": "1.0.0-beta.2",
-  "latestVersion": "1.0.0-beta.2",
-  "release_tag": "v1.0.0-beta.2",
+  "channel": "public-beta",
+  "version": "1.0.0-beta.9",
+  "latestVersion": "1.0.0-beta.9",
+  "release_tag": "v1.0.0-beta.9",
   "repository": "https://github.com/zhangyilin96/character-studio-free",
   "publisher": "zhangyilin96",
-  "published_at": "2026-08-30T09:36:17.177588+00:00",
-  "releaseDate": "2026-08-30",
+  "published_at": "2026-09-01T12:35:34.377650+00:00",
+  "releaseDate": "2026-09-01",
   "release_notes": [
-    "修复重复点击桌面图标后被错误判定为“另一个窗口仍在启动”的问题。",
-    "升级为 WebView2 原生 Desktop Window，支持窗口前置、关闭后重开和后台任务继续。",
-    "工作区更新为 Sources / Canvas / Controls 三栏桌面布局，并加入统一 Motion System。",
-    "新增跨版本完整安装与 data schema Migration Registry，升级前自动备份并支持失败重试。",
-    "保留普通模式、Pro Beta、Codex 配置、邀请码额度、任务、输出和用户设置。"
+    "修复暗色主题下大量说明文字、标签和空状态提示对比度过低、几乎不可读的问题。",
+    "修复主题在亮色/暗色反复切换后，输出数量下拉框残留另一主题背景与文字颜色的问题。",
+    "修复弹出选项列表中选中/悬停行背景在暗色主题下渲染成白底的问题。",
+    "暗色主题下卡片改为可感知光源的渐变背景，阴影改为随主题着色而非纯黑。",
+    "更换应用与安装包图标。"
   ],
   "minimum_windows_version": "10.0",
   "architecture": "x86_64",
@@ -25,11 +25,11 @@
   "installerType": "full",
   "installer": {
     "asset_name": "CharacterStudioBeta-Setup.exe",
-    "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.2/CharacterStudioBeta-Setup.exe",
-    "downloadUrl": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.2/CharacterStudioBeta-Setup.exe",
-    "size": 74053679,
-    "sha256": "0e0cc741a4c4bed3956fde19c12307d9ed7a004cdfcbbb203b1d8759f5d44fd7",
-    "windows_version": "1.0.0.2"
+    "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.9/CharacterStudioBeta-Setup.exe",
+    "downloadUrl": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.9/CharacterStudioBeta-Setup.exe",
+    "size": 68938174,
+    "sha256": "b6370d5e38b9a8627d090d81c91b27c82e4c5471eda70ca3df1781af24014b86",
+    "windows_version": "1.0.0.9"
   },
-  "license_identifier": "Pro-Beta-Invitation-v1"
+  "license_identifier": "PolyForm-Perimeter-1.0.1"
 }
