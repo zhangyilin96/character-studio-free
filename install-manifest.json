@@ -7,7 +7,7 @@
   "release_tag": "v1.0.0-beta.9",
   "repository": "https://github.com/zhangyilin96/character-studio-free",
   "publisher": "zhangyilin96",
-  "published_at": "2026-09-01T12:35:34.377650+00:00",
+  "published_at": "2026-09-01T13:05:04.769705+00:00",
   "releaseDate": "2026-09-01",
   "release_notes": [
     "修复暗色主题下大量说明文字、标签和空状态提示对比度过低、几乎不可读的问题。",
@@ -27,8 +27,8 @@
     "asset_name": "CharacterStudioBeta-Setup.exe",
     "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.9/CharacterStudioBeta-Setup.exe",
     "downloadUrl": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.9/CharacterStudioBeta-Setup.exe",
-    "size": 68938174,
-    "sha256": "b6370d5e38b9a8627d090d81c91b27c82e4c5471eda70ca3df1781af24014b86",
+    "size": 71027118,
+    "sha256": "615e8054feba4db3a386219f565672ac3031d97bdc29e7a852cfc27a07512a7f",
     "windows_version": "1.0.0.9"
   },
   "license_identifier": "PolyForm-Perimeter-1.0.1"
