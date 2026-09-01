@@ -7,7 +7,7 @@
   "release_tag": "v1.0.0-beta.9",
   "repository": "https://github.com/zhangyilin96/character-studio-free",
   "publisher": "zhangyilin96",
-  "published_at": "2026-09-01T13:58:20.206476+00:00",
+  "published_at": "2026-09-01T14:20:25.137019+00:00",
   "releaseDate": "2026-09-01",
   "release_notes": [
     "修复暗色主题下大量说明文字、标签和空状态提示对比度过低、几乎不可读的问题。",
@@ -30,8 +30,8 @@
     "asset_name": "CharacterStudioBeta-Setup.exe",
     "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.9/CharacterStudioBeta-Setup.exe",
     "downloadUrl": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.9/CharacterStudioBeta-Setup.exe",
-    "size": 72756322,
-    "sha256": "7a0bfdcb56c29dbc5aea78b000f4211ba120dfe6920219b7836d9fea9bc35118",
+    "size": 72757203,
+    "sha256": "1ceace1a9ba543dfc56d8f231f026c13a725fa0c782c2be4916ca5904ec5dd3a",
     "windows_version": "1.0.0.9"
   },
   "license_identifier": "Pro-Beta-Invitation-v1"
