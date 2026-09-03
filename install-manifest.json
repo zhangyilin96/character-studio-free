@@ -2,22 +2,22 @@
   "schema_version": 3,
   "product": "Character Studio Beta",
   "channel": "pro-beta",
-  "version": "1.0.0-beta.9",
-  "latestVersion": "1.0.0-beta.9",
-  "release_tag": "v1.0.0-beta.9",
+  "version": "1.0.0-beta.10",
+  "latestVersion": "1.0.0-beta.10",
+  "release_tag": "v1.0.0-beta.10",
   "repository": "https://github.com/zhangyilin96/character-studio-free",
   "publisher": "zhangyilin96",
-  "published_at": "2026-09-01T14:20:25.137019+00:00",
-  "releaseDate": "2026-09-01",
+  "published_at": "2026-09-03T08:51:44.281126+00:00",
+  "releaseDate": "2026-09-03",
   "release_notes": [
-    "修复暗色主题下大量说明文字、标签和空状态提示对比度过低、几乎不可读的问题。",
-    "修复主题在亮色/暗色反复切换后，输出数量下拉框残留另一主题背景与文字颜色的问题。",
-    "修复弹出选项列表中选中/悬停行背景在暗色主题下渲染成白底的问题。",
-    "暗色主题下卡片改为可感知光源的渐变背景，阴影改为随主题着色而非纯黑；主 CTA 按钮加入发光效果。",
-    "更换应用与安装包图标。",
-    "修复标题栏品牌图标未被打包导致显示为裂图的问题。",
-    "新增系统托盘图标：桌面窗口关闭后后台服务仍在运行时，右下角会常驻图标，右键可重新打开窗口或彻底退出，不再需要通过任务管理器结束进程。",
-    "修复免费版打包遗漏 studio.data_migrations / studio.desktop_shell / studio.ui_state 导致冻结后无法启动的问题（本次连带修复，Pro Beta 未受影响）。"
+    "修复姿势迁移在普通模式下的关键画质问题：快速生成不再把姿势参考压缩成灰色轮廓图，改为直接使用原图，明显减少姿势识别错误、肢体截断等问题。",
+    "修复姿势参考分割在极端透视/伸展姿势下偶发的肢体丢失（比如出拳动作丢手臂）。",
+    "修复普通模式选择「高一致性生成」后，生成已经完成却被错误判定为流水线不匹配、导致交付被拦截的问题（此前偶发需要等待十余分钟才触发）。",
+    "修复 Pro 高一致性生成偶发超时零输出、以及一次生成耗时和 Token 消耗异常偏高的问题。",
+    "一键换装的「高一致性生成」暂不支持（底层服装角色支持尚未就绪，已在入口处收起，避免选了不生效）；角色组装模式下的高一致性选项旁新增说明角标，注明目前只覆盖身份与姿势。",
+    "姿势预设（标准复刻 / 漫画动作优先 / 写实化 / 完整补全）现在真正接入生成链路，不再只是界面上的摆设。",
+    "Pro 版现在也可以选择「快速生成」，不再强制统一走高一致性；新增素材槽位的拖拽上传。",
+    "AI Pose 触发按钮不再悬浮遮挡「打开文件夹」按钮。"
   ],
   "minimum_windows_version": "10.0",
   "architecture": "x86_64",
@@ -28,11 +28,11 @@
   "installerType": "full",
   "installer": {
     "asset_name": "CharacterStudioBeta-Setup.exe",
-    "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.9/CharacterStudioBeta-Setup.exe",
-    "downloadUrl": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.9/CharacterStudioBeta-Setup.exe",
-    "size": 72757203,
-    "sha256": "1ceace1a9ba543dfc56d8f231f026c13a725fa0c782c2be4916ca5904ec5dd3a",
-    "windows_version": "1.0.0.9"
+    "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.10/CharacterStudioBeta-Setup.exe",
+    "downloadUrl": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.10/CharacterStudioBeta-Setup.exe",
+    "size": 73196748,
+    "sha256": "7d62e2eb14b6b732dc13503fae6f55ab7f616562cb2c63e005677013dd691bf4",
+    "windows_version": "1.0.0.10"
   },
   "license_identifier": "Pro-Beta-Invitation-v1"
 }
