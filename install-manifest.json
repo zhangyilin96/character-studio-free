@@ -2,24 +2,18 @@
   "schema_version": 3,
   "product": "Character Studio Beta",
   "channel": "pro-beta",
-  "version": "1.0.0-beta.11",
-  "latestVersion": "1.0.0-beta.11",
-  "release_tag": "v1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
+  "latestVersion": "1.0.0-beta.12",
+  "release_tag": "v1.0.0-beta.12",
   "repository": "https://github.com/zhangyilin96/character-studio-free",
   "publisher": "zhangyilin96",
-  "published_at": "2026-09-04T11:03:33.454746+00:00",
+  "published_at": "2026-09-04T11:47:13.784016+00:00",
   "releaseDate": "2026-09-04",
   "release_notes": [
-    "修复一键换装「衣服不像参考图」的核心问题：此前服装参考图会先做背景抠图，但抠图经常把衣服本身也一起删掉（实测一张黑金织锦长袍被删掉 57.7%，且系统仍判定为成功），模型只能自行脑补被删掉的部分，于是出现交领颜色错误、袖子花纹丢失。现已改为直接使用服装原图。",
-    "修复角色参考图在送入生成前被裁掉下半身的问题：裁剪跟随「主体区域」，而浅色背景上的裸露双腿常被判为独立区域，导致整条腿被裁掉、模型只能凭空编造腿型（这也是此前「腿变粗」的真正原因）。现在只要检测到主体超出裁剪范围就发送完整原图。",
-    "显著降低生成被内容审核拦截、返回空白结果的概率：此前抠图成功时会把人物以透明背景的孤立形态送去生成，历史记录中 9 次被拦截里有 8 次都是这种情况。现在一律合成到中性背景后再送出。",
-    "修复 Pro 用户选择「快速生成」时素材预处理被整个跳过、导致生成必定失败的问题。",
-    "新增 Pro 专属「高清 4K」出图：生成完成后在本机放大到约 4K（脸部清晰度约提升 4 倍，耗时约 8 秒），可在 Pro 模式下的「出图画质」中随时切回普通。普通模式不受影响。",
-    "大幅加强角色身份锁定：生成前会逐项记录脸型、眼型眼距、眉形、鼻梁鼻翼、唇形、发际线、肤色等特征并要求逐项复刻，明确禁止美化、瘦脸、放大眼睛与改变年龄，并禁止从服装/姿势参考图借用另一个人的五官与身材。",
-    "修复生成结果偏「糊」与皮肤颗粒感：不再把参考照片的拍摄噪点与压缩颗粒当作人物特征复刻；点开大图预览时改为加载原图，此前显示的是压缩过的小缩略图。",
-    "换装露出原图未拍到的身体部位时（例如裙装换短裤），要求按可见部分的比例外推，不再套用模型自己的「标准身材」。",
-    "上传或使用低分辨率角色参考图时会主动提醒——脸部像素过少无法锁定五官，这是导致「生成出来不像同一个人」的最常见原因。",
-    "失败提示改为说人话：AI 服务繁忙、账号额度用完等情况会直接说明原因并提示可重试，不再只显示「未完成本次任务」和一个本地目录路径。"
+    "修复角色组装忽略「出图画质」设置的问题：Pro 用户选择「普通」后，组装仍会执行 4K 高清化。组装入口此前根本没有接入画质选择。",
+    "修复多图与组装任务不跟随「生成质量」选择的问题：此前按 Pro/普通档位决定生成路线，Pro 用户即使选了「快速生成」，组内每一张仍会走高一致性路线（更慢）。现在与单图一致，按你实际选择的质量执行。",
+    "修复组任务中某一张异常退出时会连带影响整组的问题——原本用于「单张失败不影响其余」的保护逻辑本身存在缺陷。",
+    "修复生成脚本可能调用到错误 Python 解释器的问题（当系统 PATH 中存在其他 Python 时）。"
   ],
   "minimum_windows_version": "10.0",
   "architecture": "x86_64",
@@ -30,11 +24,11 @@
   "installerType": "full",
   "installer": {
     "asset_name": "CharacterStudioBeta-Setup.exe",
-    "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.11/CharacterStudioBeta-Setup.exe",
-    "downloadUrl": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.11/CharacterStudioBeta-Setup.exe",
-    "size": 87619787,
-    "sha256": "8be51e909d93a297de065db05f5d9cde6ebf58e1916763aae8c6f2e80ba9b059",
-    "windows_version": "1.0.0.11"
+    "url": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.12/CharacterStudioBeta-Setup.exe",
+    "downloadUrl": "https://github.com/zhangyilin96/character-studio-free/releases/download/v1.0.0-beta.12/CharacterStudioBeta-Setup.exe",
+    "size": 87614106,
+    "sha256": "e922f05f3cce4ea0d4a99013647ebb0aa1ac0ba0b391eb62907e240d3d4da3b7",
+    "windows_version": "1.0.0.12"
   },
   "license_identifier": "Pro-Beta-Invitation-v1"
 }
